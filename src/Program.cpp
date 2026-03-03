@@ -58,6 +58,11 @@ void Program::Update() {
         for (Projectile& p : Projectile::projectiles) { 
             p.update(); 
 
+            // Check if enemy projectile (ID != 0) collides with player
+            if (p.ID != 0 && HitBox::Collision(player->hitBox, p.getHitBox())) {
+                p.del = true;
+                PlayerReset();
+            }
         }
 
         if (lives <= 0 && pauseFrames <= 0) gameOver = true;
