@@ -4,6 +4,7 @@
 class StEnemy : public Enemy {
     private: 
         float angle = 90;
+        int score = 100;
 
     public:
         StEnemy(float x, float y) : Enemy(x, y) { 

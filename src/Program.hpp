@@ -32,6 +32,7 @@ class Program {
         void ManageEnemyRespawns();
         void DrawStartup();
         void DrawPauseScreen();
+        void DrawScore();
         void DrawGameOver();
         void KeyInputs();
         void PlayerReset();

@@ -7,6 +7,7 @@ class StdEnemy : public Enemy {
         int specialCooldown = GetRandomValue(300, 3600);
         int type = GetRandomValue(1, 2);
         inline static int attackCooldown = 360;
+        int score = 100;
 
     public:
         inline static bool attackInProgress = false;

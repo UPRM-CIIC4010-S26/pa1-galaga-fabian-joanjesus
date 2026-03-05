@@ -7,6 +7,7 @@ class SpEnemy : public Enemy {
         int delay = 0;
         int specialCooldown = GetRandomValue(1380, 3600);
         bool stop = false;
+        int score = 100;
 
     public:
         SpEnemy(float x, float y) : Enemy(x, y) { 
