@@ -35,7 +35,7 @@ void Program::Update() {
     pauseFrames = std::max(pauseFrames - 1, 0);
 
     if (!startup && !paused && !gameOver && pauseFrames <= 0) {
-        Enemy::ManageEnemies(player->hitBox);
+        Enemy::ManageEnemies(player->hitBox, score);
         StdEnemy::attackReset();
         ManageEnemyRespawns();
         player->update();
@@ -89,6 +89,14 @@ void Program::Draw() {
     if (startup) DrawStartup();
     if (paused) DrawPauseScreen();
     if (gameOver) DrawGameOver();
+
+    // Pa que dibuje ScoaL
+    DrawScore();
+}
+
+void Program::DrawScore() {
+    std::string scoreText = "Score: " + std::to_string(score);
+    DrawText(scoreText.c_str(), 10, 10, 20, WHITE);
 }
 
 void Program::ManageEnemyRespawns() {
@@ -146,10 +154,6 @@ void Program::DrawPauseScreen() {
     DrawText("Press Enter", (GetScreenWidth() / 2) - 75, GetScreenHeight() / 2, 24, GRAY);
 }
 
-void Program::DrawScore() {
-    DrawRectangle(0, 0, (float)GetScreenWidth(), (float)GetScreenHeight(), Color{0, 0, 0, 125});
-    DrawText("Score: ", (GetScreenWidth()), GetScreenHeight() - 20, 24, WHITE);
-}
 
 void Program::DrawGameOver() {
     DrawRectangle(0, 0, (float)GetScreenWidth(), (float)GetScreenHeight(), Color{0, 0, 0, 125});
@@ -197,6 +201,7 @@ void Program::Reset() {
     count = 0;
     delay = 0;
     lives = 3;
+    score = 0;
 
     // Re-add enemies
     Enemy::enemies.push_back(std::pair<std::pair<float, float>, Enemy*> {
