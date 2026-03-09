@@ -182,6 +182,14 @@ void Program::KeyInputs() {
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
     if (IsKeyPressed('K')) score += 500; // Adds 500 to score when K is pressed
     
+    if (IsKeyPressed('C')) {   //this is the bonoooo wipe enemies y ya. BONOOOOOOOOOOOOOOO. BONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        for (auto& p : Enemy::enemies) {
+            if (p.second) {
+                p.second->health = 0;
+            }
+        }
+    }
+    
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
         gameOver = false;
         Reset();
