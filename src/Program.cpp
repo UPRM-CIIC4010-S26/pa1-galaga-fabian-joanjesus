@@ -69,6 +69,15 @@ void Program::Update() {
         Projectile::CleanProjectiles();
         Projectile::ProjectileCollision();
     }
+
+    int newThousand = score / 1000;
+    if (newThousand > oldThousand) {
+        if (lives < 5){  // Increases lives by 1 (max of 5 at a time) for every 1000 points scored
+             lives += 1; 
+        }
+        newDifficulty += 1;   // Adds 1 to the amount to be reduced from respawnCooldown for every 1000 score
+    }
+    oldThousand = newThousand;
 }
 
 void Program::Draw() {
@@ -90,8 +99,9 @@ void Program::Draw() {
     if (paused) DrawPauseScreen();
     if (gameOver) DrawGameOver();
 
-    // Pa que dibuje ScoaL
+    // Draws score text
     DrawScore();
+
 }
 
 void Program::DrawScore() {
@@ -99,12 +109,16 @@ void Program::DrawScore() {
     DrawText(scoreText.c_str(), 10, 10, 20, WHITE);
 }
 
+
 void Program::ManageEnemyRespawns() {
     delay = std::max(delay - 1, 0);
 
-    respawnCooldown -= 1;
+    // Reduces respawnCooldown by newDifficulty as score increases by 1000
+    respawnCooldown -= (1 + newDifficulty);
+
     if (respawnCooldown <= 0) {
-        respawnCooldown = 1080;
+        respawnCooldown = 1080 - newDifficulty*60;
+        respawnCooldown = std::max(respawnCooldown, 300); // Limits respawn speed
         for (std::pair<std::pair<float, float>, Enemy*>& p : Enemy::enemies) {
             if (!p.second && p.first.second != 150) {
                 int eType = GetRandomValue(1, 3);
@@ -166,7 +180,7 @@ void Program::KeyInputs() {
     if (!paused && !startup && IsKeyPressed('O')) gameOver = !gameOver;
     if (!gameOver && !paused && IsKeyPressed('I')) startup = !startup;
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
-    if (IsKeyPressed('K')) score += 500;
+    if (IsKeyPressed('K')) score += 500; // Adds 500 to score when K is pressed
     
     if (gameOver && IsKeyPressed(KEY_ENTER)) {
         gameOver = false;
