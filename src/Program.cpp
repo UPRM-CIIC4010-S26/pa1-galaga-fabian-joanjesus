@@ -99,8 +99,8 @@ void Program::Draw() {
     if (paused) DrawPauseScreen();
     if (gameOver) DrawGameOver();
 
-    // Draws score text
-    DrawScore();
+    DrawScore();   // Draws score text
+    DrawLives();   // BONUS: Draws lives text
 
 }
 
@@ -109,6 +109,10 @@ void Program::DrawScore() {
     DrawText(scoreText.c_str(), 10, 10, 20, WHITE);
 }
 
+void Program::DrawLives() {
+    std::string livesText = "Lives: " + std::to_string(lives);
+    DrawText(livesText.c_str(), 10, 30, 20, WHITE); 
+}
 
 void Program::ManageEnemyRespawns() {
     delay = std::max(delay - 1, 0);
@@ -182,7 +186,7 @@ void Program::KeyInputs() {
     if (IsKeyPressed('H')) HitBox::drawHitbox = !HitBox::drawHitbox;
     if (IsKeyPressed('K')) score += 500; // Adds 500 to score when K is pressed
     
-    if (IsKeyPressed('C')) {   //this is the bonoooo wipe enemies y ya. BONOOOOOOOOOOOOOOO. BONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    if (IsKeyPressed('C')) {   // BONUS: Kill all button 
         for (auto& p : Enemy::enemies) {
             if (p.second) {
                 p.second->health = 0;

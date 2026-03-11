@@ -38,6 +38,7 @@ class Program {
         void DrawPauseScreen();
         void DrawGameOver();
         void DrawScore();
+        void DrawLives();
         void KeyInputs();
         void PlayerReset();
         void Reset();
